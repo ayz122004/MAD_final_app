@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     taskCard: {
-        flex: 1,
+        width: deviceWidth/4 * 3,
         flexDirection: 'column',
         alignItems: 'flex-start',
         justifyContent: 'center',
@@ -374,6 +374,7 @@ const styles = StyleSheet.create({
         margin: 4,
         padding: 8,
         borderRadius: 4,
+        fontSize: deviceHeight/20,
     },
     card: {
         // flex: 1,
