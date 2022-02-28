@@ -76,6 +76,8 @@ export default class App extends Component {
         this.setState({
             taskCount: this.state.taskCount + 1,
             percentComplete: this.state.completeCount/this.state.taskCount,
+            temp_taskName: '',
+            temp_taskDays: '',
         });        
     }
 
@@ -89,6 +91,7 @@ export default class App extends Component {
     _addlevel = (text) => {
         this.state.priorityList.push(text);
         this.setState({
+            temp_name: '',
             priorityList: this.state.priorityList,
             activelevelIndex: this.state.priorityList.indexOf(text),
         })
@@ -101,24 +104,28 @@ export default class App extends Component {
         homePageDisplay: 'block',
         addPageDisplay: 'none',
         priorityPageDisplay: 'none',
+        percentComplete: this.state.completeCount/this.state.taskCount,
     }));
     handleAddPagePress = () => this.setState(state => ({
         statusPageDisplay: 'none',
         homePageDisplay: 'none',
         addPageDisplay: 'block',
         priorityPageDisplay: 'none',
+        percentComplete: this.state.completeCount/this.state.taskCount,
     }));
     handleStatusPagePress = () => this.setState(state => ({
         statusPageDisplay: 'block',
         homePageDisplay: 'none',
         addPageDisplay: 'none',
         priorityPageDisplay: 'none',
+        percentComplete: this.state.completeCount/this.state.taskCount,
     }));
     priorityPageDisplay = () => this.setState(state => ({
         statusPageDisplay: 'none',
         homePageDisplay: 'none',
         addPageDisplay: 'none',
         priorityPageDisplay: 'block',
+        percentComplete: this.state.completeCount/this.state.taskCount,
     }));
 
     render() {
