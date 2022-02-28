@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, AppRegistry, Text, View, TouchableHighlight, Dimensions, StyleSheet, ImageBackground, TextInput } from 'react-native';
+import { ScrollView, AppRegistry, Text, View, TouchableHighlight, Dimensions, StyleSheet, ImageBackground, TextInput, Image } from 'react-native';
 import Constants from 'expo-constants';
 
 let deviceHeight = Dimensions.get('window').height;
@@ -34,7 +34,12 @@ export default class App extends Component {
         homePageDisplay: 'block',
         addPageDisplay: 'none',
         statusPageDisplay: 'none',
-        profilePageDisplay: 'none',
+        priorityPageDisplay: 'none',
+        activePageIndex: 0,
+        homeIconUrl: 'https://codehs.com/uploads/816ce4dd8a10c72db797b1f856cbb191',
+        addIconUrl: 'https://codehs.com/uploads/4243bb79b4198b3984c8fe69061e8d89',
+        statusIconUrl: 'https://codehs.com/uploads/daca2fcfa97f33749bcc69b3cb30f4cf',
+        priorityIconUrl: 'https://codehs.com/uploads/491ae626352af22d1b484dcde8195265',
 
         // user input variables:
         temp_taskName: '',
@@ -95,25 +100,25 @@ export default class App extends Component {
         statusPageDisplay: 'none',
         homePageDisplay: 'block',
         addPageDisplay: 'none',
-        profilePageDisplay: 'none',
+        priorityPageDisplay: 'none',
     }));
     handleAddPagePress = () => this.setState(state => ({
         statusPageDisplay: 'none',
         homePageDisplay: 'none',
         addPageDisplay: 'block',
-        profilePageDisplay: 'none',
+        priorityPageDisplay: 'none',
     }));
     handleStatusPagePress = () => this.setState(state => ({
         statusPageDisplay: 'block',
         homePageDisplay: 'none',
         addPageDisplay: 'none',
-        profilePageDisplay: 'none',
+        priorityPageDisplay: 'none',
     }));
-    profilePageDisplay = () => this.setState(state => ({
+    priorityPageDisplay = () => this.setState(state => ({
         statusPageDisplay: 'none',
         homePageDisplay: 'none',
         addPageDisplay: 'none',
-        profilePageDisplay: 'block',
+        priorityPageDisplay: 'block',
     }));
 
     render() {
@@ -208,7 +213,7 @@ export default class App extends Component {
                 </View>
 
                 {/*PRIORITY page screen layout*/}
-                <View style={{ display: this.state.profilePageDisplay }}>
+                <View style={{ display: this.state.priorityPageDisplay }}>
                     <View style={styles.contentContainer}>
                         <View style={styles.column}>
                             <Text style={styles.text2}>
@@ -263,31 +268,35 @@ export default class App extends Component {
                 <View style={styles.navbarContainer}>
                     <TouchableHighlight style={styles.navButton}
                         onPress={this.handleHomePagePress}
-                    >
-                        <Text style={styles.navButtonText}>
-                            HOME
-                        </Text>
+                    >                        
+                        <Image
+                            source={{ uri: this.state.homeIconUrl }}
+                            style={{ height: 24, width: 24 }}
+                        />
                     </TouchableHighlight>
                     <TouchableHighlight style={styles.navButton}
                         onPress={this.handleAddPagePress}
                     >
-                        <Text style={styles.navButtonText}>
-                            ADD
-                        </Text>
+                        <Image
+                            source={{ uri: this.state.addIconUrl }}
+                            style={{ height: 24, width: 24 }}
+                        />
                     </TouchableHighlight>
                     <TouchableHighlight style={styles.navButton}
                         onPress={this.handleStatusPagePress}
                     >
-                        <Text style={styles.navButtonText}>
-                            STATS
-                        </Text>
+                        <Image
+                            source={{ uri: this.state.statusIconUrl }}
+                            style={{ height: 24, width: 24 }}
+                        />
                     </TouchableHighlight>
                     <TouchableHighlight style={styles.navButton}
-                        onPress={this.profilePageDisplay}
+                        onPress={this.priorityPageDisplay}
                     >
-                        <Text style={styles.navButtonText}>
-                            PRIORITY
-                        </Text>
+                        <Image
+                            source={{ uri: this.state.priorityIconUrl }}
+                            style={{ height: 24, width: 24 }}
+                        />
                     </TouchableHighlight>
                 </View>
             </View>
