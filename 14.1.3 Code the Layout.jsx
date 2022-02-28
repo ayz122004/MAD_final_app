@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, AppRegistry, Text, View, TouchableHighlight, Dimensions, StyleSheet, ImageBackground, TextInput } from 'react-native';
+import { ScrollView, AppRegistry, Text, View, TouchableHighlight, Dimensions, StyleSheet, ImageBackground, TextInput, Image } from 'react-native';
 import Constants from 'expo-constants';
 
 let deviceHeight = Dimensions.get('window').height;
@@ -12,7 +12,7 @@ export default class App extends Component {
         taskList: [
             {
                 name: 'Finish app',
-                days: 0, //days left until deadline
+                time: 0, // time needed to complete task
                 level: 'high',
                 status: 0, //is complete
                 statusDisplay: "incomplete" // not done, complete
@@ -34,7 +34,12 @@ export default class App extends Component {
         homePageDisplay: 'block',
         addPageDisplay: 'none',
         statusPageDisplay: 'none',
-        profilePageDisplay: 'none',
+        priorityPageDisplay: 'none',
+        activePageIndex: 0,
+        homeIconUrl: 'https://codehs.com/uploads/816ce4dd8a10c72db797b1f856cbb191',
+        addIconUrl: 'https://codehs.com/uploads/4243bb79b4198b3984c8fe69061e8d89',
+        statusIconUrl: 'https://codehs.com/uploads/daca2fcfa97f33749bcc69b3cb30f4cf',
+        priorityIconUrl: 'https://codehs.com/uploads/491ae626352af22d1b484dcde8195265',
 
         // user input variables:
         temp_taskName: '',
@@ -60,10 +65,10 @@ export default class App extends Component {
     }
 
     // ADD PAGE
-    _addTask = (name, days, levelIndex) => {
+    _addTask = (name, time, levelIndex) => {
         this.state.taskList.splice(0, 0, {
             name: name,
-            days: days,
+            time: time,
             level: this.state.priorityList[levelIndex],
             status: 0,
             statusDisplay: "incomplete",
@@ -71,6 +76,8 @@ export default class App extends Component {
         this.setState({
             taskCount: this.state.taskCount + 1,
             percentComplete: this.state.completeCount/this.state.taskCount,
+            temp_taskName: '',
+            temp_taskDays: '',
         });        
     }
 
@@ -84,6 +91,7 @@ export default class App extends Component {
     _addlevel = (text) => {
         this.state.priorityList.push(text);
         this.setState({
+            temp_name: '',
             priorityList: this.state.priorityList,
             activelevelIndex: this.state.priorityList.indexOf(text),
         })
@@ -95,25 +103,29 @@ export default class App extends Component {
         statusPageDisplay: 'none',
         homePageDisplay: 'block',
         addPageDisplay: 'none',
-        profilePageDisplay: 'none',
+        priorityPageDisplay: 'none',
+        percentComplete: this.state.completeCount/this.state.taskCount,
     }));
     handleAddPagePress = () => this.setState(state => ({
         statusPageDisplay: 'none',
         homePageDisplay: 'none',
         addPageDisplay: 'block',
-        profilePageDisplay: 'none',
+        priorityPageDisplay: 'none',
+        percentComplete: this.state.completeCount/this.state.taskCount,
     }));
     handleStatusPagePress = () => this.setState(state => ({
         statusPageDisplay: 'block',
         homePageDisplay: 'none',
         addPageDisplay: 'none',
-        profilePageDisplay: 'none',
+        priorityPageDisplay: 'none',
+        percentComplete: this.state.completeCount/this.state.taskCount,
     }));
-    profilePageDisplay = () => this.setState(state => ({
+    priorityPageDisplay = () => this.setState(state => ({
         statusPageDisplay: 'none',
         homePageDisplay: 'none',
         addPageDisplay: 'none',
-        profilePageDisplay: 'block',
+        priorityPageDisplay: 'block',
+        percentComplete: this.state.completeCount/this.state.taskCount,
     }));
 
     render() {
@@ -128,7 +140,7 @@ export default class App extends Component {
                                 <View style={styles.taskCard}>
                                     <Text> Priority: {task.level}</Text>
                                     <Text> Task: {task.name} </Text>
-                                    <Text> Deadline: {task.days} days</Text>
+                                    <Text> Time: {task.time} hours</Text>
                                     <View style={styles.row2}>
                                         <TouchableHighlight
                                             onPress={() => {
@@ -163,7 +175,7 @@ export default class App extends Component {
                             />
                             <TextInput style={styles.input}
                                 onChangeText={(temp_taskDays) => this.setState({ temp_taskDays })}
-                                placeholder='task days'
+                                placeholder='hours required'
                                 placeholderTextColor={'#C9C9C9'}
                                 value={this.state.temp_taskDays}
                             />
@@ -208,7 +220,7 @@ export default class App extends Component {
                 </View>
 
                 {/*PRIORITY page screen layout*/}
-                <View style={{ display: this.state.profilePageDisplay }}>
+                <View style={{ display: this.state.priorityPageDisplay }}>
                     <View style={styles.contentContainer}>
                         <View style={styles.column}>
                             <Text style={styles.text2}>
@@ -263,31 +275,35 @@ export default class App extends Component {
                 <View style={styles.navbarContainer}>
                     <TouchableHighlight style={styles.navButton}
                         onPress={this.handleHomePagePress}
-                    >
-                        <Text style={styles.navButtonText}>
-                            HOME
-                        </Text>
+                    >                        
+                        <Image
+                            source={{ uri: this.state.homeIconUrl }}
+                            style={{ height: 24, width: 24 }}
+                        />
                     </TouchableHighlight>
                     <TouchableHighlight style={styles.navButton}
                         onPress={this.handleAddPagePress}
                     >
-                        <Text style={styles.navButtonText}>
-                            ADD
-                        </Text>
+                        <Image
+                            source={{ uri: this.state.addIconUrl }}
+                            style={{ height: 24, width: 24 }}
+                        />
                     </TouchableHighlight>
                     <TouchableHighlight style={styles.navButton}
                         onPress={this.handleStatusPagePress}
                     >
-                        <Text style={styles.navButtonText}>
-                            STATS
-                        </Text>
+                        <Image
+                            source={{ uri: this.state.statusIconUrl }}
+                            style={{ height: 24, width: 24 }}
+                        />
                     </TouchableHighlight>
                     <TouchableHighlight style={styles.navButton}
-                        onPress={this.profilePageDisplay}
+                        onPress={this.priorityPageDisplay}
                     >
-                        <Text style={styles.navButtonText}>
-                            PRIORITY
-                        </Text>
+                        <Image
+                            source={{ uri: this.state.priorityIconUrl }}
+                            style={{ height: 24, width: 24 }}
+                        />
                     </TouchableHighlight>
                 </View>
             </View>
@@ -365,7 +381,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     taskCard: {
-        flex: 1,
+        width: deviceWidth/4 * 3,
         flexDirection: 'column',
         alignItems: 'flex-start',
         justifyContent: 'center',
@@ -374,6 +390,7 @@ const styles = StyleSheet.create({
         margin: 4,
         padding: 8,
         borderRadius: 4,
+        fontSize: deviceHeight/20,
     },
     card: {
         // flex: 1,
