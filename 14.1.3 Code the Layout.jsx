@@ -12,7 +12,7 @@ export default class App extends Component {
         taskList: [
             {
                 name: 'Finish app',
-                days: 0, //days left until deadline
+                time: 0, // time needed to complete task
                 level: 'high',
                 status: 0, //is complete
                 statusDisplay: "incomplete" // not done, complete
@@ -60,10 +60,10 @@ export default class App extends Component {
     }
 
     // ADD PAGE
-    _addTask = (name, days, levelIndex) => {
+    _addTask = (name, time, levelIndex) => {
         this.state.taskList.splice(0, 0, {
             name: name,
-            days: days,
+            time: time,
             level: this.state.priorityList[levelIndex],
             status: 0,
             statusDisplay: "incomplete",
@@ -128,7 +128,7 @@ export default class App extends Component {
                                 <View style={styles.taskCard}>
                                     <Text> Priority: {task.level}</Text>
                                     <Text> Task: {task.name} </Text>
-                                    <Text> Deadline: {task.days} days</Text>
+                                    <Text> Time: {task.time} hours</Text>
                                     <View style={styles.row2}>
                                         <TouchableHighlight
                                             onPress={() => {
@@ -163,7 +163,7 @@ export default class App extends Component {
                             />
                             <TextInput style={styles.input}
                                 onChangeText={(temp_taskDays) => this.setState({ temp_taskDays })}
-                                placeholder='task days'
+                                placeholder='hours required'
                                 placeholderTextColor={'#C9C9C9'}
                                 value={this.state.temp_taskDays}
                             />
