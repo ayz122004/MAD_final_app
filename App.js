@@ -19,8 +19,8 @@ export default class App extends Component {
             },
         ],
 
-        // PRIORITY stuff
-        priorityList: [
+        // catetory stuff
+        catList: [
             "DEFCON 1",
         ],
         activelevelIndex: 0,
@@ -34,12 +34,13 @@ export default class App extends Component {
         homePageDisplay: 'block',
         addPageDisplay: 'none',
         statusPageDisplay: 'none',
-        priorityPageDisplay: 'none',
+        catPageDisplay: 'none',
         activePageIndex: 0,
-        homeIconUrl: 'https://codehs.com/uploads/816ce4dd8a10c72db797b1f856cbb191',
-        addIconUrl: 'https://codehs.com/uploads/4243bb79b4198b3984c8fe69061e8d89',
-        statusIconUrl: 'https://codehs.com/uploads/daca2fcfa97f33749bcc69b3cb30f4cf',
-        priorityIconUrl: 'https://codehs.com/uploads/491ae626352af22d1b484dcde8195265',
+        iconTintColors: ['white', '', '', ''], // set iTC[activePageIndex] to '#'
+        homeIconUrl: 'https://codehs.com/uploads/885ab8c21bdc9bd1d5d44d5aa8d10218',
+        addIconUrl: 'https://codehs.com/uploads/6ffbe82d2f5168bea168a7f9d8f5ed97',
+        statusIconUrl: 'https://codehs.com/uploads/755a3766563fd53e226ada8d207784de',
+        catIconUrl: 'https://codehs.com/uploads/d3a7b31bd65b4cd79530fb4f24e8d85a',
 
         // user input variables:
         temp_taskName: '',
@@ -69,7 +70,7 @@ export default class App extends Component {
         this.state.taskList.splice(0, 0, {
             name: name,
             time: time,
-            level: this.state.priorityList[levelIndex],
+            level: this.state.catList[levelIndex],
             status: 0,
             statusDisplay: "incomplete",
         });
@@ -82,18 +83,18 @@ export default class App extends Component {
     }
 
 
-    // PRIORITY PAGE
+    // category PAGE
     _updateActivelevel = (name) => {
         this.setState({
-            activelevelIndex: this.state.priorityList.indexOf(name),
+            activelevelIndex: this.state.catList.indexOf(name),
         })
     }
     _addlevel = (text) => {
-        this.state.priorityList.push(text);
+        this.state.catList.push(text);
         this.setState({
             temp_name: '',
-            priorityList: this.state.priorityList,
-            activelevelIndex: this.state.priorityList.indexOf(text),
+            catList: this.state.catList,
+            activelevelIndex: this.state.catList.indexOf(text),
         })
     }
 
@@ -103,28 +104,28 @@ export default class App extends Component {
         statusPageDisplay: 'none',
         homePageDisplay: 'block',
         addPageDisplay: 'none',
-        priorityPageDisplay: 'none',
+        catPageDisplay: 'none',
         percentComplete: this.state.completeCount/this.state.taskCount,
     }));
     handleAddPagePress = () => this.setState(state => ({
         statusPageDisplay: 'none',
         homePageDisplay: 'none',
         addPageDisplay: 'block',
-        priorityPageDisplay: 'none',
+        catPageDisplay: 'none',
         percentComplete: this.state.completeCount/this.state.taskCount,
     }));
     handleStatusPagePress = () => this.setState(state => ({
         statusPageDisplay: 'block',
         homePageDisplay: 'none',
         addPageDisplay: 'none',
-        priorityPageDisplay: 'none',
+        catPageDisplay: 'none',
         percentComplete: this.state.completeCount/this.state.taskCount,
     }));
-    priorityPageDisplay = () => this.setState(state => ({
+    catPageDisplay = () => this.setState(state => ({
         statusPageDisplay: 'none',
         homePageDisplay: 'none',
         addPageDisplay: 'none',
-        priorityPageDisplay: 'block',
+        catPageDisplay: 'block',
         percentComplete: this.state.completeCount/this.state.taskCount,
     }));
 
@@ -138,9 +139,9 @@ export default class App extends Component {
                         <ScrollView style={styles.scrollView}>
                             {this.state.taskList.map((task) => (
                                 <View style={styles.taskCard}>
-                                    <Text> Priority: {task.level}</Text>
-                                    <Text> Task: {task.name} </Text>
-                                    <Text> Time: {task.time} hours</Text>
+                                    <Text style={styles.cardText}>category: {task.level}</Text>
+                                    <Text style={styles.cardText}>Task: {task.name} </Text>
+                                    <Text style={styles.cardText}>Time: {task.time} hours</Text>
                                     <View style={styles.row2}>
                                         <TouchableHighlight
                                             onPress={() => {
@@ -148,14 +149,10 @@ export default class App extends Component {
 
                                             }}
                                         >
-                                            <Text style={styles.text2}>
-                                                [DONE]
-                                            </Text>
+                                            <Text style={styles.cardText}>[DONE]</Text>
                                         </TouchableHighlight>
 
-                                        <Text style={styles.text2}>
-                                            Status: {task.statusDisplay}
-                                        </Text>
+                                        <Text style={styles.cardText}>Status: {task.statusDisplay}</Text>
                                     </View>
                                 </View>
                             ))}
@@ -219,19 +216,19 @@ export default class App extends Component {
                     </View>
                 </View>
 
-                {/*PRIORITY page screen layout*/}
-                <View style={{ display: this.state.priorityPageDisplay }}>
+                {/*category page screen layout*/}
+                <View style={{ display: this.state.catPageDisplay }}>
                     <View style={styles.contentContainer}>
                         <View style={styles.column}>
-                            <Text style={styles.text2}>
-                                Current level: {this.state.priorityList[this.state.activelevelIndex]}
+                            <Text>
+                                Current category: {this.state.catList[this.state.activelevelIndex]}
                             </Text>
                         </View>
 
                         {/* list-levelnames box */}
                         <View style={{flex: 5, backgroundColor: '#545555', width: deviceWidth/4 *3, borderRadius: 8,}}>
                             <ScrollView>
-                                {this.state.priorityList.map((level) => (
+                                {this.state.catList.map((level) => (
                                     <View style={styles.row}>
                                         <TouchableHighlight
                                             onPress={() => {
@@ -254,7 +251,7 @@ export default class App extends Component {
                                 <TextInput style={styles.input}
                                     onChangeText={(temp_name) => this.setState({ temp_name })}
                                     value={this.state.temp_name}
-                                    placeholder='priority level'
+                                    placeholder='cat level'
                                     placeholderTextColor={'#C9C9C9'}
                                 />
                                 <TouchableHighlight style={styles.button_wide}
@@ -277,8 +274,8 @@ export default class App extends Component {
                         onPress={this.handleHomePagePress}
                     >                        
                         <Image
+                            style={{ height: 24, width: 24, tintColor: 'white' }}
                             source={{ uri: this.state.homeIconUrl }}
-                            style={{ height: 24, width: 24 }}
                         />
                     </TouchableHighlight>
                     <TouchableHighlight style={styles.navButton}
@@ -298,10 +295,10 @@ export default class App extends Component {
                         />
                     </TouchableHighlight>
                     <TouchableHighlight style={styles.navButton}
-                        onPress={this.priorityPageDisplay}
+                        onPress={this.catPageDisplay}
                     >
                         <Image
-                            source={{ uri: this.state.priorityIconUrl }}
+                            source={{ uri: this.state.catIconUrl }}
                             style={{ height: 24, width: 24 }}
                         />
                     </TouchableHighlight>
@@ -335,7 +332,7 @@ const styles = StyleSheet.create({
     },
     navbarContainer: {
         flex: 1,
-        // backgroundColor: 'darkblue',
+        backgroundColor: '#222222',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
@@ -349,10 +346,9 @@ const styles = StyleSheet.create({
         padding: 8,
         borderRadius: 4,
     },
-    navButtonText: {
-        fontSize: deviceHeight / 48,
-        textAlign: 'center',
-        color: '#444545',
+    cardText: {
+        fontSize: deviceHeight / 30,
+        color: 'white',
     },
     input: {
         alignItems: 'center',
@@ -383,14 +379,12 @@ const styles = StyleSheet.create({
     taskCard: {
         width: deviceWidth/4 * 3,
         flexDirection: 'column',
-        alignItems: 'flex-start',
         justifyContent: 'center',
         color: 'white',
         backgroundColor: '#545555',
         margin: 4,
         padding: 8,
         borderRadius: 4,
-        fontSize: deviceHeight/20,
     },
     card: {
         // flex: 1,
