@@ -13,7 +13,7 @@ export default class App extends Component {
             {
                 name: 'Finish app',
                 time: 0, // time needed to complete task
-                level: 'high',
+                level: 'school',
                 status: 0, //is complete
                 statusDisplay: "incomplete" // not done, complete
             },
@@ -21,7 +21,10 @@ export default class App extends Component {
 
         // catetory stuff
         catList: [
-            "DEFCON 1",
+            "School",
+            "Code",
+            "Work",
+            "Idea",
         ],
         activelevelIndex: 0,
 
@@ -138,22 +141,33 @@ export default class App extends Component {
                     <View style={styles.contentContainer}>
                         <ScrollView style={styles.scrollView}>
                             {this.state.taskList.map((task) => (
-                                <View style={styles.taskCard}>
-                                    <Text style={styles.cardText}>category: {task.level}</Text>
-                                    <Text style={styles.cardText}>Task: {task.name} </Text>
-                                    <Text style={styles.cardText}>Time: {task.time} hours</Text>
-                                    <View style={styles.row2}>
-                                        <TouchableHighlight
-                                            onPress={() => {
-                                                this._updateTaskStatus(task)
-
-                                            }}
-                                        >
-                                            <Text style={styles.cardText}>[DONE]</Text>
-                                        </TouchableHighlight>
-
-                                        <Text style={styles.cardText}>Status: {task.statusDisplay}</Text>
+                                <View style={styles.row}>
+                                    <Text style={{transform: [{ rotate: "270deg" }]}}>
+                                        {task.level}
+                                    </Text>
+                                    <View style={styles.taskCard}>
+                                        <View style={{flexDirection: 'row'}}>
+                                            <View style={{flex: 1}}>
+                                                <TouchableHighlight 
+                                                    onPress={() => {this._updateTaskStatus(task)}}
+                                                >
+                                                    <Text style={styles.cardText}>[X]</Text>
+                                                </TouchableHighlight>
+                                            </View>
+                                            <View style={{flexDirection: 'column', justifyContent: 'center', flex: 3}}>
+                                                <Text style={{fontSize: deviceHeight/30, fontWeight: 'bold', color: 'white'}}>
+                                                    {task.name} 
+                                                </Text>
+                                                <Text style={{fontSize: deviceHeight/40, color: 'lightgray'}}>
+                                                    {task.time} hours
+                                                </Text>
+                                                <Text style={styles.cardText}>Status: {task.statusDisplay}</Text>
+                                            </View>
+                                        </View>
                                     </View>
+                                    <TouchableHighlight onPress={() => {this._updateTaskStatus(task)}}>
+                                        <Text style={styles.cardText}>[D]</Text>
+                                    </TouchableHighlight>
                                 </View>
                             ))}
                         </ScrollView>
