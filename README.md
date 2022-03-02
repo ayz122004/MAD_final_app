@@ -2,7 +2,7 @@
 
 How to run:
 
-- Run App.js file in codehs rn app project
+- Run App.js in a CodeHS RN project
 
 Credits:
 

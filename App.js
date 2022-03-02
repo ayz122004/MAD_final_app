@@ -156,34 +156,39 @@ export default class App extends Component {
                         <ScrollView style={styles.scrollView}>
                             {this.state.taskList.map((task) => (
                                 <View style={styles.row}>
-                                    <Text style={{transform: [{ rotate: "270deg" }]}}>
+                                    <Text style={{color: '#C5E0D8', transform: [{ rotate: "270deg" }]}}>
                                         {task.level}
                                     </Text>
                                     {/* <TouchableHighlight onLongPress={() => this._deleteTask(task)}> */}
                                         <View style={styles.taskCard}>
                                             <View style={{flexDirection: 'row'}}>
-                                                <View style={{flex: 1}}>
-                                                    <TouchableHighlight 
-                                                        onPress={() => {this._updateTaskStatus(task)}}
-                                                    >
-                                                        <Text style={styles.cardText}>[X]</Text>
-                                                    </TouchableHighlight>
-                                                </View>
                                                 <View style={{flexDirection: 'column', justifyContent: 'center', flex: 3}}>
                                                     <Text style={{fontSize: deviceHeight/30, fontWeight: 'bold', color: 'white'}}>
                                                         {task.name} 
                                                     </Text>
-                                                    <Text style={{fontSize: deviceHeight/40, color: 'lightgray'}}>
+                                                    <Text style={{fontSize: deviceHeight/30, color: 'lightgray'}}>
                                                         {task.time} hours
                                                     </Text>
-                                                    <Text style={styles.cardText}>Status: {task.statusDisplay}</Text>
+                                                    <Text style={{fontSize: deviceHeight/40, color: '#C5E0D8'}}>
+                                                        {task.statusDisplay}
+                                                    </Text>
+                                                </View>
+                                                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',}}>
+                                                    <TouchableHighlight 
+                                                        onPress={() => {this._updateTaskStatus(task)}}
+                                                    >
+                                                        <Image
+                                                            style={{ height: 24, width: 24, tintColor: 'white' }}
+                                                            source={{ uri: 'https://codehs.com/uploads/ce0cd455c40f76ca496d6e220e937cb3' }}
+                                                        ></Image>                                                        
+                                                    </TouchableHighlight>
                                                 </View>
                                             </View>
                                         </View>
                                     {/* </TouchableHighlight> */}
-                                    <TouchableHighlight onPress={() => {this._updateTaskStatus(task)}}>
+                                    {/* <TouchableHighlight onPress={() => {this._updateTaskStatus(task)}}>
                                         <Text style={styles.cardText}>[D]</Text>
-                                    </TouchableHighlight>
+                                    </TouchableHighlight> */}
                                 </View>
                             ))}
                         </ScrollView>
@@ -251,7 +256,7 @@ export default class App extends Component {
                     <View style={styles.contentContainer}>
                         <View style={styles.column}>
                             <Text>
-                                Current category: {this.state.catList[this.state.activelevelIndex]}
+                                Selected: {this.state.catList[this.state.activelevelIndex]}
                             </Text>
                         </View>
 
@@ -281,7 +286,7 @@ export default class App extends Component {
                                 <TextInput style={styles.input}
                                     onChangeText={(temp_name) => this.setState({ temp_name })}
                                     value={this.state.temp_name}
-                                    placeholder='cat level'
+                                    placeholder='category'
                                     placeholderTextColor={'#C9C9C9'}
                                 />
                                 <TouchableHighlight style={styles.button_wide}
@@ -306,15 +311,15 @@ export default class App extends Component {
                         <Image
                             style={{ height: 24, width: 24, tintColor: 'white' }}
                             source={{ uri: this.state.homeIconUrl }}
-                        />
+                        ></Image>
                     </TouchableHighlight>
                     <TouchableHighlight style={styles.navButton}
                         onPress={this.handleAddPagePress}
                     >
                         <Image
-                            source={{ uri: this.state.addIconUrl }}
-                            style={{ height: 24, width: 24 }}
-                        />
+                                source={{ uri: this.state.addIconUrl }}
+                                style={{ height: 24, width: 24 }}
+                            ></Image>
                     </TouchableHighlight>
                     <TouchableHighlight style={styles.navButton}
                         onPress={this.handleStatusPagePress}
@@ -322,7 +327,7 @@ export default class App extends Component {
                         <Image
                             source={{ uri: this.state.statusIconUrl }}
                             style={{ height: 24, width: 24 }}
-                        />
+                        ></Image>
                     </TouchableHighlight>
                     <TouchableHighlight style={styles.navButton}
                         onPress={this.catPageDisplay}
@@ -330,7 +335,7 @@ export default class App extends Component {
                         <Image
                             source={{ uri: this.state.catIconUrl }}
                             style={{ height: 24, width: 24 }}
-                        />
+                        ></Image>
                     </TouchableHighlight>
                 </View>
             </View>
