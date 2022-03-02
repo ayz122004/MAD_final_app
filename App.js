@@ -68,6 +68,20 @@ export default class App extends Component {
         });
     }
 
+    _deleteTask = (task) => {
+        let index = this.state.taskList.indexOf(task);
+        if (task.status == 1) completeCount = completeCount-1;
+        this.state.taskCount = this.state.taskCount - 1;
+        this.state.taskList = this.state.taskList.splice[index, 1];
+        
+        this.setState({
+            taskList: this.state.taskList,
+            taskCount: this.state.taskCount,
+            completeCount: this.state.completeCount,
+            percentComplete: this.state.completeCount/this.state.taskCount,
+        });
+    }
+
     // ADD PAGE
     _addTask = (name, time, levelIndex) => {
         this.state.taskList.splice(0, 0, {
@@ -145,26 +159,28 @@ export default class App extends Component {
                                     <Text style={{transform: [{ rotate: "270deg" }]}}>
                                         {task.level}
                                     </Text>
-                                    <View style={styles.taskCard}>
-                                        <View style={{flexDirection: 'row'}}>
-                                            <View style={{flex: 1}}>
-                                                <TouchableHighlight 
-                                                    onPress={() => {this._updateTaskStatus(task)}}
-                                                >
-                                                    <Text style={styles.cardText}>[X]</Text>
-                                                </TouchableHighlight>
-                                            </View>
-                                            <View style={{flexDirection: 'column', justifyContent: 'center', flex: 3}}>
-                                                <Text style={{fontSize: deviceHeight/30, fontWeight: 'bold', color: 'white'}}>
-                                                    {task.name} 
-                                                </Text>
-                                                <Text style={{fontSize: deviceHeight/40, color: 'lightgray'}}>
-                                                    {task.time} hours
-                                                </Text>
-                                                <Text style={styles.cardText}>Status: {task.statusDisplay}</Text>
+                                    {/* <TouchableHighlight onLongPress={() => this._deleteTask(task)}> */}
+                                        <View style={styles.taskCard}>
+                                            <View style={{flexDirection: 'row'}}>
+                                                <View style={{flex: 1}}>
+                                                    <TouchableHighlight 
+                                                        onPress={() => {this._updateTaskStatus(task)}}
+                                                    >
+                                                        <Text style={styles.cardText}>[X]</Text>
+                                                    </TouchableHighlight>
+                                                </View>
+                                                <View style={{flexDirection: 'column', justifyContent: 'center', flex: 3}}>
+                                                    <Text style={{fontSize: deviceHeight/30, fontWeight: 'bold', color: 'white'}}>
+                                                        {task.name} 
+                                                    </Text>
+                                                    <Text style={{fontSize: deviceHeight/40, color: 'lightgray'}}>
+                                                        {task.time} hours
+                                                    </Text>
+                                                    <Text style={styles.cardText}>Status: {task.statusDisplay}</Text>
+                                                </View>
                                             </View>
                                         </View>
-                                    </View>
+                                    {/* </TouchableHighlight> */}
                                     <TouchableHighlight onPress={() => {this._updateTaskStatus(task)}}>
                                         <Text style={styles.cardText}>[D]</Text>
                                     </TouchableHighlight>
